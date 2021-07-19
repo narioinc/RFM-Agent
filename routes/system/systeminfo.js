@@ -4,6 +4,10 @@ const si = require('systeminformation');
 
 const SYSTEM_SUMMARY = 0;
 const CPU_SUMMARY = 1 
+const CPU_INFO = 0;
+const CPU_FLAGS = 1;
+const CPU_CURRENT_SPEED = 2;
+const CPU_TEMP = 3;
 
 router.get('/', function (req, res) {
     throw new Error('BROKEN') // Express will catch this on its own.
@@ -32,7 +36,7 @@ router.get('/system', function(req, res, next) {
 router.get('/cpu', function(req, res, next) {
     Promise.all([si.cpu(), si.cpuFlags(), si.cpuCurrentSpeed(), si.cpuTemperature()]).then(messages =>{
         res.status(200);
-        res.json({"cpu": {"cpuInfo": messages[0], "cpuFlags": messages[1],"cpuCurrentSpeed": messages[2], "cpuTemperature": messages[3]}});
+        res.json({"cpu": {"cpuInfo": messages[CPU_INFO], "cpuFlags": messages[CPU_FLAGS],"cpuCurrentSpeed": messages[CPU_CURRENT_SPEED], "cpuTemperature": messages[CPU_TEMP]}});
     }).catch(error =>{
 
     });
