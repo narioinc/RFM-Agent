@@ -3,12 +3,16 @@ var router = express.Router();
 const merge = require('deepmerge')
 var pjson = require('../../package.json');
 var mqttClient = require('../../mqtt/mqttClient');
-var influ
+
 
 process.env["NODE_CONFIG_DIR"] = "~/.rfm/";
 const config = require('config');
 var agentConfig = require('../../config/agentConfig');
 const influxClient = require('../../influx/influxClient');
+
+router.get('/', function (req, res) {
+    throw new Error('BROKEN') // Express will catch this on its own.
+  })
 
 router.get('/health', function(req, res, next) {
     mqttConnected = mqttClient.getConnectedStatus()

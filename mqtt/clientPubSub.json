@@ -1,0 +1,8 @@
+{
+    "subscribe": {},
+    "publish": {
+        "cpu_metrics": "/deviceid/metrics/cpu",
+        "mem_metrics": "/deviceid/metrics/mem",
+        "health": "/deviceid/health"
+    }
+}

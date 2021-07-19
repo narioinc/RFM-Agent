@@ -8,6 +8,7 @@
   "dependencies": {
     "@influxdata/influxdb-client": "^1.15.0",
     "@influxdata/influxdb-client-apis": "^1.15.0",
+    "bree": "^6.2.1",
     "config": "^3.3.6",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -24,6 +25,8 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "passport-local-sequelize": "^0.9.0",
+    "sequelize": "^6.6.5",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "systeminformation": "^5.7.8",
