@@ -11,7 +11,7 @@ var mqttClient = require('./mqtt/mqttClient');
 agentConfig.initConfig();
 mqttClient.initClient();
 
-var metricsRouter = require('./routes/metrics');
+var metricsRouter = require('./routes/metrics/metrics');
 var systemInfoRouter = require('./routes/system/systeminfo');
 var wifiRouter = require('./routes/system/wifi');
 var bluetoothRouter = require('./routes/system/bluetooth');
