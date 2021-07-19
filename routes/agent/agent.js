@@ -1,17 +1,44 @@
 var express = require('express');
 var router = express.Router();
 const merge = require('deepmerge')
+var pjson = require('../../package.json');
 var mqttClient = require('../../mqtt/mqttClient');
+var influ
 
 process.env["NODE_CONFIG_DIR"] = "~/.rfm/";
 const config = require('config');
-var agentConfig = require('../../config/agentConfig')
+var agentConfig = require('../../config/agentConfig');
+const influxClient = require('../../influx/influxClient');
 
 router.get('/health', function(req, res, next) {
     mqttConnected = mqttClient.getConnectedStatus()
-    console.log(mqttConnected);
-    res.status(200);
-    res.json({"health": {"agent": "up", "mqtt": mqttConnected?"up": "down"}});
+    influxConnected = influxClient.getConnectedStatus();
+    influxConnected.then(data => {
+        res.status(200);
+        res.json({"health": {"agent": "up", "mqtt": mqttConnected?"up": "down", "influx": data.status == 'pass'? "up": "down"}});
+    })
+    
+})
+
+router.get('/info', function(req,res, next){
+    var agentVersion = pjson.version;
+    var nodeVersion = process.version;
+    var processUid = process.pid;
+    var processArch = process.arch;
+    var processPlatfrom = process.platform;
+    var processMem = process.memoryUsage();
+    var processUptime = process.uptime();
+    var agentInfo = {
+        version: agentVersion,
+        node: nodeVersion,
+        pUid: processUid,
+        arch:  processArch,
+        platform: processPlatfrom,
+        mem: processMem,
+        uptime: processUptime
+    }
+    res.status(200)
+    res.json(agentInfo)
 })
 
 router.get('/config', function(req, res, next) {

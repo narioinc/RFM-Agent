@@ -40,6 +40,10 @@ var agentConfig = {
   getMqttConfig: function(){
     return agentFullConfig['mqtt'];
   },
+
+  getInfluxConfig: function(){
+    return agentFullConfig['influxdb'];
+  },
   
   getAgentConfig: function(){
     return agentFullConfig

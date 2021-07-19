@@ -5,11 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var crypto = require('crypto');
 var cors = require('cors')
-var agentConfig = require('./config/agentConfig')
-var mqttClient = require('./mqtt/mqttClient');
+agentConfig = require('./config/agentConfig')
+mqttClient = require('./mqtt/mqttClient');
+influxClient = require('./influx/influxClient')
 
 agentConfig.initConfig();
 mqttClient.initClient();
+influxClient.initClient();
 
 var metricsRouter = require('./routes/metrics/metrics');
 var systemInfoRouter = require('./routes/system/systeminfo');
