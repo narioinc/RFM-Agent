@@ -9,19 +9,19 @@ const appRoot = path.resolve(__dirname);
 
 var agentConfig = {
 
-  initConfig: function(){
-  
-    if (!fs.existsSync(configDirPath)){
+  initConfig: function () {
+
+    if (!fs.existsSync(configDirPath)) {
       fs.mkdir(configDirPath,
-      { recursive: true }, (err) => {
-        if (err) {
-          console.log('Config directory already exists!');
-        }else{
-        console.log('Config directory created successfully!');
-        copyDefaultConfig();
-        }
-      });
-    }    
+        { recursive: true }, (err) => {
+          if (err) {
+            console.log('Config directory already exists!');
+          } else {
+            console.log('Config directory created successfully!');
+            copyDefaultConfig();
+          }
+        });
+    }
     console.log("loading agent configuration from " + configDirPath);
     process.env["NODE_CONFIG_DIR"] = configDirPath
     config = require('config');
@@ -29,47 +29,47 @@ var agentConfig = {
 
   },
 
-  setConfig: function(){
+  setConfig: function () {
 
   },
 
-  getServerConfig: function(){
+  getServerConfig: function () {
     return agentFullConfig['server']
   },
 
-  getMqttConfig: function(){
+  getMqttConfig: function () {
     return agentFullConfig['mqtt'];
   },
 
-  getInfluxConfig: function(){
+  getInfluxConfig: function () {
     return agentFullConfig['influxdb'];
   },
-  
-  getAgentConfig: function(){
+
+  getAgentConfig: function () {
     return agentFullConfig
   },
 
-  setAgentConfig: function(config){
+  setAgentConfig: function (config) {
     agentFullConfig = config;
     writeConfigFile(config)
   },
 
 }
 
-function writeConfigFile(config){
-  try{ 
-    fs.writeFile(configDirPath + '/default.json', JSON.stringify({"agent": config}), {
-    // flag: 'a' // 'a' flag for append
-  }, (err) => {
-    console.log("ERROR: ", err)
-  })
-}catch(err){
-  console.log(err);
-}
-  
+function writeConfigFile(config) {
+  try {
+    fs.writeFile(configDirPath + '/default.json', JSON.stringify({ "agent": config }), {
+      // flag: 'a' // 'a' flag for append
+    }, (err) => {
+      console.log("ERROR: ", err)
+    })
+  } catch (err) {
+    console.log(err);
+  }
+
 }
 
-function copyDefaultConfig(){
+function copyDefaultConfig() {
   fs.copyFileSync(appRoot + "/default.json", require('path').join(homedir, '.rfm') + "/default.json", (err) => {
     if (err) {
       console.log("Error while copying agent config file", err);
