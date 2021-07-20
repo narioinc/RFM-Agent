@@ -10,7 +10,44 @@ agentConfig.initConfig();
 mqttClient = require('./mqtt/mqttClient');
 influxClient = require('./influx/influxClient')
 agentDiscovery = require ('./discovery/discovery')
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
+const jsDocOptions = {
+  swaggerDefinition: {
+    // Like the one described here: https://swagger.io/specification/#infoObject
+    info: {
+      title: 'RFM API',
+      version: '1.0.0',
+      description: 'API documentation for the Raspberry-Pi Fleet Manager agent',
+    },
+    "tags": [
+      {
+        "name": "System",
+        "description": "Everything about your RFM Agent's system"
+      },
+      {
+        "name": "Agent",
+        "description": "Information about the agent including health and other extended info"
+      },
+      {
+        "name": "Device Provisioning",
+        "description": "Device provisionign workflows including add, delete, modify and others"
+      },
+      {
+        "name": "Scheduler",
+        "description": "RFM agent job scheduler"
+      },
+      {
+        "name": "metrics",
+        "description": "RFM agents metrics like CPU usage, mem usage etc"
+      }
+    ],
+  },
+  // List of files to be processes. You can also set globs './routes/*.js'
+  apis: ['./routes/system/*.js'],
+};
+const specs = swaggerJsdoc(jsDocOptions);
 
 mqttClient.initClient();
 influxClient.initClient();
@@ -25,14 +62,13 @@ var fsRouter = require('./routes/system/fs');
 var agentRouter = require('./routes/agent/agent');
 
 var app = express();
-
-
 app.use(logger('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/systeminfo', systemInfoRouter);
 app.use('/wifi', wifiRouter);
 app.use('/disk', diskRouter);

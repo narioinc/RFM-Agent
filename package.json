@@ -29,6 +29,8 @@
     "sequelize": "^6.6.5",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
     "systeminformation": "^5.7.8",
     "yargs": "^17.0.1"
   }
