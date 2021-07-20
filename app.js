@@ -6,11 +6,12 @@ var logger = require('morgan');
 var crypto = require('crypto');
 var cors = require('cors')
 agentConfig = require('./config/agentConfig')
+agentConfig.initConfig();
 mqttClient = require('./mqtt/mqttClient');
 influxClient = require('./influx/influxClient')
 agentDiscovery = require ('./discovery/discovery')
 
-agentConfig.initConfig();
+
 mqttClient.initClient();
 influxClient.initClient();
 agentDiscovery.initDiscovery();
