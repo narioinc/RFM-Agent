@@ -8,10 +8,12 @@ var cors = require('cors')
 agentConfig = require('./config/agentConfig')
 mqttClient = require('./mqtt/mqttClient');
 influxClient = require('./influx/influxClient')
+agentDiscovery = require ('./discovery/discovery')
 
 agentConfig.initConfig();
 mqttClient.initClient();
 influxClient.initClient();
+agentDiscovery.initDiscovery();
 
 var metricsRouter = require('./routes/metrics/metrics');
 var systemInfoRouter = require('./routes/system/systeminfo');
@@ -19,7 +21,7 @@ var wifiRouter = require('./routes/system/wifi');
 var bluetoothRouter = require('./routes/system/bluetooth');
 var diskRouter = require('./routes/system/disks');
 var fsRouter = require('./routes/system/fs');
-var agentRouter = require('./routes/agent/agent')
+var agentRouter = require('./routes/agent/agent');
 
 var app = express();
 
@@ -48,9 +50,9 @@ app.get('/', function (req, res) {
   throw new Error('BROKEN') // Express will catch this on its own.
 })
 
-app.listen(agentConfig.getServerConfig().port, () => {
+app.listen(agentConfig.getServerConfig().port, "0.0.0.0", () => {
   console.log('Welcome to Raspberry-Pi F\leet manager');
-  console.log('RFM REST API listening at http://localhost:' + agentConfig.getServerConfig().port);
+  console.log('RFM REST API listening on port:' + agentConfig.getServerConfig().port);
 })
 app.use(cors());
 

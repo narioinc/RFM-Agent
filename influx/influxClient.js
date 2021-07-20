@@ -5,10 +5,13 @@ const agentConfig = require('../config/agentConfig');
 var client
 
 var influxClient = {
+    isInfluxMetricEnabled: agentConfig.getInfluxConfig().enabled,
     initClient: function () {
-        var url = "http://" + agentConfig.getInfluxConfig().host + ":" + agentConfig.getInfluxConfig().port;
-        var token = agentConfig.getInfluxConfig().token
-        client = new InfluxDB({ url, token })
+        if (this.isInfluxMetricEnabled) {
+            var url = "http://" + agentConfig.getInfluxConfig().host + ":" + agentConfig.getInfluxConfig().port;
+            var token = agentConfig.getInfluxConfig().token
+            client = new InfluxDB({ url, token })
+        }
     },
 
     closeClient: function () {
@@ -26,13 +29,19 @@ var influxClient = {
     },
 
     getConnectedStatus: function () {
+
         if (client) {
-            const healthAPI = new HealthAPI(client)
-            return healthAPI.getHealth();
+            try {
+                const healthAPI = new HealthAPI(client)
+                return healthAPI.getHealth();
+            } catch (err) {
+                return Promise.resolve({ "status": "fail" });
+            }
         } else {
-            return Promise.resolve({ "status": false });
+            return Promise.resolve({ "status": "fail" });
         }
     }
 }
+
 
 module.exports = influxClient;

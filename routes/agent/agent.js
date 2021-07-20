@@ -1,13 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const merge = require('deepmerge')
 var pjson = require('../../package.json');
 var mqttClient = require('../../mqtt/mqttClient');
-
-
+var agentConfig = require('../../config/agentConfig');
 process.env["NODE_CONFIG_DIR"] = "~/.rfm/";
 const config = require('config');
-var agentConfig = require('../../config/agentConfig');
+const merge = require('deepmerge')
 const influxClient = require('../../influx/influxClient');
 
 router.get('/', function (req, res) {
@@ -15,11 +13,14 @@ router.get('/', function (req, res) {
 })
 
 router.get('/health', function (req, res, next) {
-    mqttConnected = mqttClient.getConnectedStatus()
-    influxConnected = influxClient.getConnectedStatus();
+    mqttConnected = mqttClient?mqttClient.getConnectedStatus():false;
+    influxConnected = (agentConfig.getInfluxConfig().enabled)?influxClient.getConnectedStatus(): false;
     influxConnected.then(data => {
         res.status(200);
         res.json({ "health": { "agent": "up", "mqtt": mqttConnected ? "up" : "down", "influx": data.status == 'pass' ? "up" : "down" } });
+    }).catch(err => {
+        console.log(err)
+        res.json({ "health": { "agent": "up", "mqtt": mqttConnected ? "up" : "down", "influx": "down" } });
     })
 
 })
