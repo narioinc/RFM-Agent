@@ -40,7 +40,7 @@ app.use('/metrics', metricsRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
@@ -61,10 +61,10 @@ process.on('SIGTERM', () => {
   })
 })
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   console.log("Shutting down agent");
   if (true)
-      process.exit();
+    process.exit();
 });
 
 

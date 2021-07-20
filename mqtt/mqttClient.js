@@ -5,32 +5,32 @@ var client;
 agentConfig.initConfig();
 
 var mqttClient = {
-   
-    initClient: function(){
-        if(!client){
+
+    initClient: function () {
+        if (!client) {
             var mqttConfig = agentConfig.getMqttConfig();
             var mqttUrl = 'mqtt://' + mqttConfig.broker_url + ":" + mqttConfig.broker_port
             console.log("connecting to " + mqttUrl)
-            client  = mqtt.connect(mqttUrl)
+            client = mqtt.connect(mqttUrl)
         }
     },
 
-    restartClient: function(){
-        if(client){
+    restartClient: function () {
+        if (client) {
             client.reconnect
         }
     },
 
-    disconnectClient: function(){
-        if(client){
+    disconnectClient: function () {
+        if (client) {
             client.close();
         }
     },
 
-    getConnectedStatus: function(){
-        if(client){
+    getConnectedStatus: function () {
+        if (client) {
             return client.connected;
-        }else{
+        } else {
             return false;
         }
     }

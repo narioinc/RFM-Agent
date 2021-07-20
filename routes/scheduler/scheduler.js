@@ -12,31 +12,31 @@ const bree = new Bree({
     //
     logger: new Cabin(),
 
-});  
+});
 
 var scheduler = {
-    initScheduler: function(){
-        if(bree){
-        // start all jobs (this is the equivalent of reloading a crontab):
-        bree.start();
+    initScheduler: function () {
+        if (bree) {
+            // start all jobs (this is the equivalent of reloading a crontab):
+            bree.start();
         }
     },
 
-    stopScheduler: function(){
-        if(bree){
+    stopScheduler: function () {
+        if (bree) {
             bree.stop();
         }
     },
 
-    addJob: function(job){
-        
-        if(bree){
+    addJob: function (job) {
+
+        if (bree) {
             bree.add(job);
         }
     },
 
-    removeJob: function(job){
-        if(bree){
+    removeJob: function (job) {
+        if (bree) {
             bree.remove(job);
         }
     }
