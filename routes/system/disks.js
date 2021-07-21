@@ -6,6 +6,17 @@ router.get('/', function (req, res) {
     throw new Error('BROKEN') // Express will catch this on its own.
 })
 
+
+/**
+ * @swagger
+ * /disks/summary:
+ *   get:
+ *     description: Agent system disks summary
+ *     tags: [Disks]
+ *     responses:
+ *       200:
+ *         description: Returns the agent system's disks information summary.
+ */
 router.get('/summary', function (req, res, next) {
     Promise.all([si.diskLayout(), si.disksIO()]).then((messages) => {
         res.status(200);
@@ -13,7 +24,16 @@ router.get('/summary', function (req, res, next) {
     })
 });
 
-
+/**
+ * @swagger
+ * /disks/disk_layout:
+ *   get:
+ *     description: Agent system disks layout
+ *     tags: [Disks]
+ *     responses:
+ *       200:
+ *         description: Returns the agent system's disks layout information.
+ */
 router.get('/disk_layout', function (req, res, next) {
     si.diskLayout().then(data => {
         res.status(200);
@@ -23,6 +43,16 @@ router.get('/disk_layout', function (req, res, next) {
     })
 })
 
+/**
+ * @swagger
+ * /disks/block_devices:
+ *   get:
+ *     description: Agent system block devices
+ *     tags: [Disks]
+ *     responses:
+ *       200:
+ *         description: Returns the agent system's block devcies information.
+ */
 router.get('/block_devices', function (req, res, next) {
     si.blockDevices().then(data => {
         res.status(200);
@@ -32,6 +62,16 @@ router.get('/block_devices', function (req, res, next) {
     })
 })
 
+/**
+ * @swagger
+ * /disks/disks_io:
+ *   get:
+ *     description: Agent system disks io
+ *     tags: [Disks]
+ *     responses:
+ *       200:
+ *         description: Returns the agent system's disks io stats.
+ */
 router.get('/disks_io', function (req, res, next) {
     si.disksIO().then(data => {
         res.status(200);

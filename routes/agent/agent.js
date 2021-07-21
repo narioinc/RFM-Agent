@@ -12,6 +12,16 @@ router.get('/', function (req, res) {
     throw new Error('BROKEN') // Express will catch this on its own.
 })
 
+/**
+ * @swagger
+ * /agent/health:
+ *   get:
+ *     description: Agent system health
+ *     tags: [Agent]
+ *     responses:
+ *       200:
+ *         description: Returns the current health of the agent and its subsystems.
+ */
 router.get('/health', function (req, res, next) {
     mqttConnected = mqttClient?mqttClient.getConnectedStatus():false;
     influxConnected = (agentConfig.getInfluxConfig().enabled)?influxClient.getConnectedStatus(): false;
@@ -25,6 +35,16 @@ router.get('/health', function (req, res, next) {
 
 })
 
+/**
+ * @swagger
+ * /agent/info:
+ *   get:
+ *     description: Agent system info
+ *     tags: [Agent]
+ *     responses:
+ *       200:
+ *         description: Returns the extended information about the agent.
+ */
 router.get('/info', function (req, res, next) {
     var agentVersion = pjson.version;
     var nodeVersion = process.version;
@@ -46,12 +66,32 @@ router.get('/info', function (req, res, next) {
     res.json(agentInfo)
 })
 
+/**
+ * @swagger
+ * /agent/config:
+ *   get:
+ *     description: Agent system config
+ *     tags: [Agent]
+ *     responses:
+ *       200:
+ *         description: Returns the RFM Agent's current config.
+ */
 router.get('/config', function (req, res, next) {
     res.status(200);
     res.json(agentConfig.getAgentConfig())
 })
 
-router.post('/config', function (req, res, next) {
+/**
+ * @swagger
+ * /agent/config:
+ *   put:
+ *     description: Update RFM Agent's system config
+ *     tags: [Agent]
+ *     responses:
+ *       200:
+ *         description: Returns success if the the RFM Agent's current config was updated correctly.
+ */
+router.put('/config', function (req, res, next) {
     var mergedConfig = merge(agentConfig.getAgentConfig(), req.body);
     agentConfig.setAgentConfig(mergedConfig)
     res.status(200);

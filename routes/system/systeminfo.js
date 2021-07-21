@@ -150,7 +150,7 @@ router.get('/mem', function (req, res, next) {
 
 /**
  * @swagger
- * /processes:
+ * /systeminfo/processes:
  *   get:
  *     description: Agent system process information
  *     tags: [System]
@@ -170,7 +170,7 @@ router.get('/processes', function (req, res, next) {
 
 /**
  * @swagger
- * /current_load:
+ * /systeminfo/current_load:
  *   get:
  *     description: Agent system process CPU load
  *     tags: [System]
@@ -190,7 +190,7 @@ router.get('/current_load', function (req, res, next) {
 
 /**
  * @swagger
- * /network:
+ * /systeminfo/network:
  *   get:
  *     description: Agent system process network information
  *     tags: [System]
@@ -207,7 +207,7 @@ router.get('/network', function (req, res, next) {
 
 /**
  * @swagger
- * /network_connections:
+ * /systeminfo/network_connections:
  *   get:
  *     description: Agent system process network connections information
  *     tags: [System]
@@ -227,7 +227,7 @@ router.get('/network_connections', function (req, res, next) {
 
 /**
  * @swagger
- * /usb:
+ * /systeminfo/usb:
  *   get:
  *     description: Agent system USB devices information
  *     tags: [System]

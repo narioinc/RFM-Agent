@@ -9,7 +9,7 @@ agentConfig = require('./config/agentConfig')
 agentConfig.initConfig();
 mqttClient = require('./mqtt/mqttClient');
 influxClient = require('./influx/influxClient')
-agentDiscovery = require ('./discovery/discovery')
+agentDiscovery = require('./discovery/discovery')
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -39,13 +39,29 @@ const jsDocOptions = {
         "description": "RFM agent job scheduler"
       },
       {
-        "name": "metrics",
-        "description": "RFM agents metrics like CPU usage, mem usage etc"
+        "name": "Metrics",
+        "description": "RFM agent's metrics like CPU usage, mem usage etc"
+      },
+      {
+        "name": "Wifi",
+        "description": "RFM agent's wifi information"
+      },
+      {
+        "name": "Filesystem",
+        "description": "RFM agent's Filesystem information"
+      },
+      {
+        "name": "Disks",
+        "description": "RFM agent's physical disks information"
+      },
+      {
+        "name": "Bluetooth",
+        "description": "RFM agent's bluetooth information"
       }
     ],
   },
   // List of files to be processes. You can also set globs './routes/*.js'
-  apis: ['./routes/system/*.js'],
+  apis: ['./routes/system/*.js', './routes/scheduler/*.js', './routes/metrics/*.js', './routes/device_provisioning/*.js', './routes/agent/*.js'],
 };
 const specs = swaggerJsdoc(jsDocOptions);
 
@@ -60,6 +76,8 @@ var bluetoothRouter = require('./routes/system/bluetooth');
 var diskRouter = require('./routes/system/disks');
 var fsRouter = require('./routes/system/fs');
 var agentRouter = require('./routes/agent/agent');
+var deviceProvisionigRouter = require('./routes/device_provisioning/device_provisoning')
+var schedulerRouter = require('./routes/scheduler/schedulerapi')
 
 var app = express();
 app.use(logger('combined'));
@@ -71,11 +89,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/systeminfo', systemInfoRouter);
 app.use('/wifi', wifiRouter);
-app.use('/disk', diskRouter);
+app.use('/disks', diskRouter);
 app.use('/fs', fsRouter);
 app.use('/agent', agentRouter)
 app.use('/bluetooth', bluetoothRouter);
 app.use('/metrics', metricsRouter);
+app.use('/device_provisioning', deviceProvisionigRouter);
+app.use('/scheduler', schedulerRouter);
 
 
 // catch 404 and forward to error handler

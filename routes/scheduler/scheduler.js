@@ -3,15 +3,7 @@ const Bree = require('bree');
 //jobs = require ('./jobs')
 
 const bree = new Bree({
-    //
-    // NOTE: by default the `logger` is set to `console`
-    // however we recommend you to use CabinJS as it
-    // will automatically add application and worker metadata
-    // to your log output, and also masks sensitive data for you
-    // <https://cabinjs.com>
-    //
-    logger: new Cabin(),
-
+    jobs: []
 });
 
 var scheduler = {
