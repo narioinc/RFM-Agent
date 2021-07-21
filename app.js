@@ -60,8 +60,8 @@ app.get('/', function (req, res) {
 })
 
 app.listen(agentConfig.getServerConfig().port, "0.0.0.0", () => {
-  RFMLogger.info('Welcome to Raspberry-Pi F\leet manager');
-  RFMLogger.info('RFM REST API listening on port:' + agentConfig.getServerConfig().port);
+  RFMLogger.info('Welcome to Raspberry-Pi Fleet manager Agent');
+  RFMLogger.info('RFM Agent REST API listening on port:' + agentConfig.getServerConfig().port);
 })
 app.use(cors());
 

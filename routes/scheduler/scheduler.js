@@ -21,15 +21,22 @@ router.get('/jobs', function (req, res, next) { });
 
 /**
  * @swagger
- * /scheduler/jobs/{id}:
+ * /scheduler/jobs/{jobId}:
  *   get:
  *     description: Agent system scheduler job details
+ *     parameters:
+ *       - in: path
+ *         name: jobId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Job ID of the active job
  *     tags: [Scheduler]
  *     responses:
  *       200:
  *         description: Returns the details of a partcular job given by id.
  */
-router.get('/jobs/{id}', function (req, res, next) { });
+router.get('/jobs/:jobId', function (req, res, next) { });
 
 /**
  * @swagger
@@ -45,27 +52,41 @@ router.post('/jobs', function (req, res, next) { });
 
 /**
  * @swagger
- * /scheduler/jobs/{id}:
+ * /scheduler/jobs/{jobId}:
  *   delete:
  *     description: Delete a scehduled job
+ *     parameters:
+ *       - in: path
+ *         name: jobId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Job ID of the active job
  *     tags: [Scheduler]
  *     responses:
  *       200:
  *         description: Returns success if the job was successfully removed.
  */
-router.delete('/jobs/{id}', function (req, res, next) { });
+router.delete('/jobs/:jobId', function (req, res, next) { });
 
 /**
  * @swagger
  * /scheduler/jobs/{id}:
  *   put:
  *     description: Update a schedule job
+ *     parameters:
+ *       - in: path
+ *         name: jobId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Job ID of the active job
  *     tags: [Scheduler]
  *     responses:
  *       200:
  *         description: Returns success if the job was updated and restarts the job.
  */
-router.put('/jobs/{id}', function (req, res, next) { });
+router.put('/jobs/:jobId}', function (req, res, next) { });
 
 /**
  * @swagger
