@@ -1,0 +1,40 @@
+{
+    "agent": {
+        "server": {
+            "host": "localhost",
+            "port": 8000,
+            "discovery": "true",
+            "logger": {
+                "enabled": true,
+                "loglevel": "info"
+            }
+        },
+        "mqtt": {
+            "broker_url": "127.0.0.1",
+            "broker_port": "1883",
+            "logger": {
+                "enabled": true,
+                "loglevel": "info"
+            }
+        },
+        "influxdb": {
+            "enabled": "false",
+            "host": "127.0.0.1",
+            "port": "8086",
+            "token": "UocUGkcxngthucwazbIskYtc8CpdxiF3FCl6ZR6umGzauPTD4wbAIFuYYGiF6z4gmKMKOnaAEIipvRykEiaQjQ==",
+            "logger": {
+                "enabled": true,
+                "loglevel": "info"
+            }
+        },
+        "scheduler": {
+            "enabled": false,
+            "logger": {
+                "enabled": true,
+                "loglevel": "info",
+                "timeout": "0",
+                "interval": "0"
+            }
+        }
+    }
+}
