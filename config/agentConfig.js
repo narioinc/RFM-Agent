@@ -54,6 +54,10 @@ var agentConfig = {
     writeConfigFile(config)
   },
 
+  getSchedulerConfig: function(){
+    return agentFullConfig['scheduler'];
+  }
+
 }
 
 function writeConfigFile(config) {

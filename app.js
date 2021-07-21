@@ -12,6 +12,7 @@ influxClient = require('./influx/influxClient')
 agentDiscovery = require('./discovery/discovery')
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+scheduler = require('./scheduler/scheduler')
 
 const jsDocOptions = {
   swaggerDefinition: {
@@ -68,6 +69,7 @@ const specs = swaggerJsdoc(jsDocOptions);
 mqttClient.initClient();
 influxClient.initClient();
 agentDiscovery.initDiscovery();
+scheduler.initScheduler();
 
 var metricsRouter = require('./routes/metrics/metrics');
 var systemInfoRouter = require('./routes/system/systeminfo');
@@ -77,7 +79,7 @@ var diskRouter = require('./routes/system/disks');
 var fsRouter = require('./routes/system/fs');
 var agentRouter = require('./routes/agent/agent');
 var deviceProvisionigRouter = require('./routes/device_provisioning/device_provisoning')
-var schedulerRouter = require('./routes/scheduler/schedulerapi')
+var schedulerRouter = require('./routes/scheduler/scheduler')
 
 var app = express();
 app.use(logger('combined'));
