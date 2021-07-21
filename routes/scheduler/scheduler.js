@@ -3,7 +3,12 @@ const Bree = require('bree');
 //jobs = require ('./jobs')
 
 const bree = new Bree({
-    jobs: []
+    jobs: [
+        {
+            name: 'sampleJob',
+            interval: '1h'
+        }
+    ]
 });
 
 var scheduler = {
