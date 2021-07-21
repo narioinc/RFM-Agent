@@ -30,10 +30,6 @@ var agentConfig = {
 
   },
 
-  setConfig: function () {
-
-  },
-
   getServerConfig: function () {
     return agentFullConfig['server']
   },
