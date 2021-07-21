@@ -11,7 +11,7 @@ var mqttClient = {
         if (!client) {
             var mqttConfig = agentConfig.getMqttConfig();
             var mqttUrl = 'mqtt://' + mqttConfig.broker_url + ":" + mqttConfig.broker_port
-            console.log("connecting to " + mqttUrl)
+            RFMLogger.info("connecting to " + mqttUrl)
             client = mqtt.connect(mqttUrl)
         }
         this.startListener();
@@ -46,10 +46,10 @@ var mqttClient = {
             if(topic){
                 client.subscribe(topic, (err) => {cb(err)})
             }else{
-                console.log("please provide a topic")
+                RFMLogger.error("please provide a topic")
             }
         }else{
-            console.log("mqtt client is not initialized")
+            RFMLogger.error("mqtt client is not initialized")
         }
     },
 
@@ -58,10 +58,10 @@ var mqttClient = {
             if(topic){
                 client.unsubscribe(topic, cb(err))
             }else{
-                console.log("please provide a topic")
+                RFMLogger.info("please provide a topic")
             }
         }else{
-            console.log("mqtt client is not initialized")
+            RFMLogger.info("mqtt client is not initialized")
         }
     },
 

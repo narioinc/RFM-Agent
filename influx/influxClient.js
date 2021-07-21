@@ -2,6 +2,8 @@
 const { InfluxDB, Point, HttpError } = require('@influxdata/influxdb-client')
 const { HealthAPI } = require('@influxdata/influxdb-client-apis')
 const agentConfig = require('../config/agentConfig');
+RFMLogger = require('../utils/logger');
+
 var client
 
 var influxClient = {
@@ -17,9 +19,9 @@ var influxClient = {
     closeClient: function () {
         if (client) {
             client.close().then(() => {
-                console.log("closing influxdb connection")
+                RFMLogger.info("closing influxdb connection")
             }).catch(err => {
-                console.log("unable to close influxdb connection")
+                RFMLogger.error("unable to close influxdb connection")
             })
         }
     },

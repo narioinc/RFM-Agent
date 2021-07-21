@@ -43,13 +43,13 @@ var scheduler = {
 }
 
 bree.on('worker created', (name) => {
-    console.log('worker created', name);
-    console.log(bree.workers[name]);
+    RFMLogger.debug('worker created', name);
+    RFMLogger.debug(bree.workers[name]);
   });
   
 bree.on('worker deleted', (name) => {
-    console.log('worker deleted', name);
-    console.log(typeof bree.workers[name] === 'undefined');
+    RFMLogger.debug('worker deleted', name);
+    RFMLogger.debug(typeof bree.workers[name] === 'undefined');
   });
 
 module.exports = scheduler;

@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
  *         description: Returns the provisioned status if it was a success.
  */
 router.post('/',  function (req, res, next) {
-    console.log("got a request to provision");
+    RFMLogger.info("Got a request to provision this device with deviceId : " + req.body.deviceId);
     var deviceId = req.body.deviceId;
     var deviceName = req.body.deviceName;
     var requestTime =  req.body.requestTime;

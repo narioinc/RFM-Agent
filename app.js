@@ -10,61 +10,11 @@ agentConfig.initConfig();
 mqttClient = require('./mqtt/mqttClient');
 influxClient = require('./influx/influxClient')
 agentDiscovery = require('./discovery/discovery')
-const swaggerJsdoc = require('swagger-jsdoc');
+swaggerSpecs = require('./utils/swaggerdocs');
 const swaggerUi = require('swagger-ui-express');
 scheduler = require('./scheduler/scheduler')
+RFMLogger = require('./utils/logger');
 
-const jsDocOptions = {
-  swaggerDefinition: {
-    // Like the one described here: https://swagger.io/specification/#infoObject
-    info: {
-      title: 'RFM API',
-      version: '1.0.0',
-      description: 'API documentation for the Raspberry-Pi Fleet Manager agent',
-    },
-    "tags": [
-      {
-        "name": "System",
-        "description": "Everything about your RFM Agent's system"
-      },
-      {
-        "name": "Agent",
-        "description": "Information about the agent including health and other extended info"
-      },
-      {
-        "name": "Device Provisioning",
-        "description": "Device provisionign workflows including add, delete, modify and others"
-      },
-      {
-        "name": "Scheduler",
-        "description": "RFM agent job scheduler"
-      },
-      {
-        "name": "Metrics",
-        "description": "RFM agent's metrics like CPU usage, mem usage etc"
-      },
-      {
-        "name": "Wifi",
-        "description": "RFM agent's wifi information"
-      },
-      {
-        "name": "Filesystem",
-        "description": "RFM agent's Filesystem information"
-      },
-      {
-        "name": "Disks",
-        "description": "RFM agent's physical disks information"
-      },
-      {
-        "name": "Bluetooth",
-        "description": "RFM agent's bluetooth information"
-      }
-    ],
-  },
-  // List of files to be processes. You can also set globs './routes/*.js'
-  apis: ['./routes/system/*.js', './routes/scheduler/*.js', './routes/metrics/*.js', './routes/device_provisioning/*.js', './routes/agent/*.js'],
-};
-const specs = swaggerJsdoc(jsDocOptions);
 
 mqttClient.initClient();
 influxClient.initClient();
@@ -82,13 +32,13 @@ var deviceProvisionigRouter = require('./routes/device_provisioning/device_provi
 var schedulerRouter = require('./routes/scheduler/scheduler')
 
 var app = express();
-app.use(logger('combined'));
+app.use(logger('combined', { "stream": RFMLogger.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use('/systeminfo', systemInfoRouter);
 app.use('/wifi', wifiRouter);
 app.use('/disks', diskRouter);
@@ -110,8 +60,8 @@ app.get('/', function (req, res) {
 })
 
 app.listen(agentConfig.getServerConfig().port, "0.0.0.0", () => {
-  console.log('Welcome to Raspberry-Pi F\leet manager');
-  console.log('RFM REST API listening on port:' + agentConfig.getServerConfig().port);
+  RFMLogger.info('Welcome to Raspberry-Pi F\leet manager');
+  RFMLogger.info('RFM REST API listening on port:' + agentConfig.getServerConfig().port);
 })
 app.use(cors());
 
@@ -123,7 +73,7 @@ process.on('SIGTERM', () => {
 })
 
 process.on('SIGINT', function () {
-  console.log("Shutting down agent");
+  RFMLogger.info("Shutting down agent");
   if (true)
     process.exit();
 });

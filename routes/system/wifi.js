@@ -18,7 +18,6 @@ router.get('/', function (req, res) {
  */
 router.get('/summary', function (req, res, next) {
     Promise.all([si.wifiInterfaces(), si.wifiConnections()]).then((messages) => {
-        console.log(messages);
         res.status(200);
         res.json({ "summary": { "wifiInterfaces": messages[0], "wifiConnections": messages[1] } });
     })

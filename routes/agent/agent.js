@@ -23,13 +23,13 @@ router.get('/', function (req, res) {
  *         description: Returns the current health of the agent and its subsystems.
  */
 router.get('/health', function (req, res, next) {
-    mqttConnected = mqttClient?mqttClient.getConnectedStatus():false;
-    influxConnected = (agentConfig.getInfluxConfig().enabled)?influxClient.getConnectedStatus(): false;
+    mqttConnected = mqttClient ? mqttClient.getConnectedStatus() : false;
+    influxConnected = (agentConfig.getInfluxConfig().enabled) ? influxClient.getConnectedStatus() : false;
     influxConnected.then(data => {
         res.status(200);
         res.json({ "health": { "agent": "up", "mqtt": mqttConnected ? "up" : "down", "influx": data.status == 'pass' ? "up" : "down" } });
     }).catch(err => {
-        console.log(err)
+        RFMLogger.error(err)
         res.json({ "health": { "agent": "up", "mqtt": mqttConnected ? "up" : "down", "influx": "down" } });
     })
 

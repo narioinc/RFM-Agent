@@ -2,8 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const homedir = require('os').homedir();
 var configDirPath = require('path').join(homedir, '.rfm');
-var agentFullConfig;
+RFMLogger = require('../utils/logger');
 
+var agentFullConfig;
 var config;
 const appRoot = path.resolve(__dirname);
 
@@ -15,14 +16,14 @@ var agentConfig = {
       fs.mkdir(configDirPath,
         { recursive: true }, (err) => {
           if (err) {
-            console.log('Config directory already exists!');
+            RFMLogger.error('Config directory already exists!');
           } else {
-            console.log('Config directory created successfully!');
+            RFMLogger.info('Config directory created successfully!');
             copyDefaultConfig();
           }
         });
     }
-    console.log("loading agent configuration from " + configDirPath);
+    RFMLogger.info("loading agent configuration from " + configDirPath);
     process.env["NODE_CONFIG_DIR"] = configDirPath
     config = require('config');
     agentFullConfig = config.get('agent');
@@ -54,7 +55,7 @@ var agentConfig = {
     writeConfigFile(config)
   },
 
-  getSchedulerConfig: function(){
+  getSchedulerConfig: function () {
     return agentFullConfig['scheduler'];
   }
 
@@ -65,10 +66,10 @@ function writeConfigFile(config) {
     fs.writeFile(configDirPath + '/default.json', JSON.stringify({ "agent": config }), {
       // flag: 'a' // 'a' flag for append
     }, (err) => {
-      console.log("ERROR: ", err)
+      RFMLogger.error("ERROR: ", err)
     })
   } catch (err) {
-    console.log(err);
+    RFMLogger.error(err);
   }
 
 }
@@ -76,10 +77,10 @@ function writeConfigFile(config) {
 function copyDefaultConfig() {
   fs.copyFileSync(appRoot + "/default.json", require('path').join(homedir, '.rfm') + "/default.json", (err) => {
     if (err) {
-      console.log("Error while copying agent config file", err);
+      RFMLogger.error("Error while copying agent config file", err);
     }
     else {
-      console.log("agent config copied successfully")
+      RFMLogger.info("agent config copied successfully")
     }
   });
 }

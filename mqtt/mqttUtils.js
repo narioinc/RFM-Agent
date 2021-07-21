@@ -10,7 +10,7 @@ var mqttUtils = {
             subscriptionTopic = subscriptionTopic.replace("{deviceid}", deviceId)
             return subscriptionTopic;
         }else{
-            console.log("please provide a valid topic")
+            RFMLogger.error("please provide a valid topic")
             return null;
         }
     }
